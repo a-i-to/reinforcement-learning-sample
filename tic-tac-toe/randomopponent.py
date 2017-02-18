@@ -46,11 +46,11 @@ class RandomOpponent:
             return 0
         diag_state2 = state & 13104
         if diag_state2 == 544:
-            return 8
+            return 6
         if diag_state2 == 4532:
             return 4
         if diag_state2 == 8704:
-            return 0
+            return 2
 
         for i in range(self.NUM_ROWS):
             if row_state == 5:
@@ -75,9 +75,9 @@ class RandomOpponent:
             return 0
         diag_state2 = state & 13104
         if diag_state2 == 272:
-            return 8
+            return 6
         if diag_state2 == 4112:
             return 4
         if diag_state2 == 8224:
-            return 0
+            return 2
         return -1
