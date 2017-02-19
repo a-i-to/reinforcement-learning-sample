@@ -1,5 +1,5 @@
 """
-Monte Calro Player 
+Monte Calro Player
 """
 
 import numpy as np
@@ -32,26 +32,26 @@ class MonteCalroPlayer:
         [6, 7 ,8, 3, 4, 5, 0, 1, 2],
         [8, 5, 2, 7, 4, 1, 6, 3, 0]
     ]
-    
+
     def __init__(self, policy_func, discount):
         self._policy_func = policy_func
         self._discount = discount
         self.q = defaultdict(lambda: [0] * self.NUM_ACTIONS)
-        
+
     def fit(self, opponent, l, m, seed=None):
         """ learning q function.
-        
+
         Args:
-            opponent (:obj): 
+            opponent (:obj):
             l (int): num of iterations
             m (int): num of episodes
 
         Returns:
-            self (:obj): 
+            self (:obj):
         """
         np.random.seed(seed)
         opponent.random = np.random
-        
+
         for i in range(l):
             sampling_data = defaultdict(lambda:(0,0))
             for j in range(m):
@@ -72,32 +72,30 @@ class MonteCalroPlayer:
                     if is_finished:
                         episode.append((encoded, action, reward, next_state))
                         break
-
                     next_state = self.decode(encode_idx, next_state)
+
                     opponent_action = opponent.move(next_state)
                     next_next_state, _, is_finished \
                         = self.update_state(next_state, False, opponent_action)
                     encode_idx, next_next_encoded \
                         = self.encode(next_next_state)
-
                     episode.append((encoded, action, reward,
                                     next_next_encoded))
                     if is_finished:
                         break
-
                     state = self.decode(encode_idx, next_next_encoded)
-                    
+
                 self.update_sampling_data(sampling_data, episode)
 
             self.update_q(sampling_data)
 
         return self
-        
+
     def take_action(self, policy):
         """ select an action.
-        
+
         Args:
-            policy (List[float]): 
+            policy (List[float]):
         """
         accum = list(itertools.accumulate(policy))
         rand_value = np.random.rand()
@@ -111,15 +109,14 @@ class MonteCalroPlayer:
         else:
             reward = 0
         return (next_state, reward, game_state != 'CONTINUE')
-        
+
     def generate_next(self, state, is_my_move, action):
         if is_my_move:
             return state | (1 << (action * 2))
         else:
             return state | (1 << ((action * 2) + 1))
-        
-    def is_finished(self, state):
 
+    def is_finished(self, state):
         for i in range(3):
             row_state = (state & (63 << i * 6)) >> i * 6
             if row_state == 21:
@@ -146,7 +143,7 @@ class MonteCalroPlayer:
             return "FINISHED"
         else:
             return "CONTINUE"
-            
+
     def update_sampling_data(self, sampling_data, episode):
         future_reward = 0
         for i, v in enumerate(reversed(episode)):
@@ -154,12 +151,12 @@ class MonteCalroPlayer:
             action = v[1]
             reward = v[2] + self._discount * future_reward
             future_reward = reward
-            
+
             key = (state, action)
             value = sampling_data[key]
             sampling_data[key] = (value[0] + reward,
                                   value[1] + 1)
-                
+
     def update_q(self, sampling_data):
         self.q = defaultdict(lambda: [0] * self.NUM_ACTIONS)
         for k, v in sampling_data.items():
@@ -185,14 +182,13 @@ class MonteCalroPlayer:
     def decode(self, index, val):
         if index == 0:
             return val
-        
+
         as_array = np.zeros(9, int)
         for i in range(9):
             as_array[i] = (val >> i * 2) & 3
-        
+
         arr = as_array[self.__class__.ROT_MATRIX[index]]
         val = 0
         for i in range(9):
             val |= arr[i] << i * 2
         return val
-
