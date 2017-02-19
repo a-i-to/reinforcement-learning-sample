@@ -53,6 +53,7 @@ class RandomOpponent:
             return 2
 
         for i in range(self.NUM_ROWS):
+            row_state = (state & (63 << i * 6)) >> i * 6
             if row_state == 5:
                 return 2 + i * 3
             if row_state == 17:
