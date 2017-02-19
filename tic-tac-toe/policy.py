@@ -13,7 +13,7 @@ def can_take(state, action):
 
 class Greedy:
 
-    def execute(self, q, state):
+    def __call__(self, q, state):
         policy = [0] * NUM_ACTIONS
         pairs = [(i,v) for i, v in enumerate(q[state]) if can_take(state, i)]
         policy[max(pairs, key=lambda x: x[1])[0]] = 1
@@ -25,7 +25,7 @@ class Softmax:
     def __init__(self, temperature):
        self._temperature = temperature
 
-    def execute(self, q, state):
+    def __call__(self, q, state):
         policy = [0] * NUM_ACTIONS
         pairs = [(i,v) for i, v in enumerate(q[state]) if can_take(state, i)]
         for p in pairs:
@@ -39,7 +39,7 @@ class EGreedy:
     def __init__(self, epsilon):
         self._epsilon = epsilon
 
-    def execute(self, q, state):
+    def __call__(self, q, state):
         policy = [0] * NUM_ACTIONS
         pairs = [(i,v) for i, v in enumerate(q[state]) if can_take(state, i)]
         for p in pairs:

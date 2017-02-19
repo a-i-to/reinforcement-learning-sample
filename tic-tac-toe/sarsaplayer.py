@@ -68,7 +68,7 @@ class SarsaPlayer:
 
                 for k in range(self.T):
                     encode_idx, encoded = self.encode(state)
-                    policy = self._policy_func.execute(self.q, encoded)
+                    policy = self._policy_func(self.q, encoded)
                     action = self.take_action(policy)
                     next_state, reward, is_finished \
                         = self.update_state(encoded, True, action)
