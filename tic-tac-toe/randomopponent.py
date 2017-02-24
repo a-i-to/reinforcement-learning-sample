@@ -30,7 +30,7 @@ class RandomOpponent:
                 return 1 + i * 3
             if row_state == 40:
                 return i * 3
-            col_state = (state & 12483 << i * 2) >> i * 2
+            col_state = (state & (12483 << i * 2)) >> i * 2
             if col_state == 130:
                 return 6 + i
             if col_state == 8194:
@@ -60,7 +60,7 @@ class RandomOpponent:
                 return 1 + i * 3
             if row_state == 20:
                 return i * 3
-            col_state = (state & 12483 << i * 2) >> i * 2
+            col_state = (state & (12483 << i * 2)) >> i * 2
             if col_state == 65:
                 return 6 + i
             if col_state == 4097:

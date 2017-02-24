@@ -53,7 +53,7 @@ class MonteCalroPlayer(player.Player):
                     next_state = self.decode(encode_idx, next_state)
 
                     opponent_action = opponent.move(next_state)
-                    next_next_state, _, is_finished \
+                    next_next_state, reward, is_finished \
                         = self.update_state(next_state, False, opponent_action)
                     encode_idx, next_next_encoded \
                         = self.encode(next_next_state)
