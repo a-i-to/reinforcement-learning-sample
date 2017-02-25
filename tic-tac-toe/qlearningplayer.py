@@ -28,7 +28,7 @@ class QLearningPlayer(player.Player):
             policy_func (:obj): policy function (callable)
             opponent (:obj):
             discount (float): discount rate
-            m (int): num of episodes
+            m (int): num of iteretions
             seed (int): random seed
 
         Returns:
@@ -57,7 +57,7 @@ class QLearningPlayer(player.Player):
 
                 next_state = self.decode(encode_idx, next_state)
                 opponent_action = opponent.move(next_state)
-                next_next_state, _, is_finished \
+                next_next_state, reward, is_finished \
                     = self.update_state(next_state, False, opponent_action)
                 encode_idx, next_next_encoded \
                     = self.encode(next_next_state)
