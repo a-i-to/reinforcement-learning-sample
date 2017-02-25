@@ -5,7 +5,7 @@ Policy functions
 import numpy as np
 import math
 
-NUM_ACTIONS = 9
+import game
 
 
 def can_take(state, action):
@@ -15,7 +15,7 @@ def can_take(state, action):
 class Greedy:
 
     def __call__(self, q, state):
-        policy = [0] * NUM_ACTIONS
+        policy = [0] * game.NUM_CELLS
         pairs = [(i, v) for i, v in enumerate(q[state]) if can_take(state, i)]
         policy[max(pairs, key=lambda x: x[1])[0]] = 1
         return policy
@@ -27,7 +27,7 @@ class Softmax:
         self._temperature = temperature
 
     def __call__(self, q, state):
-        policy = [0] * NUM_ACTIONS
+        policy = [0] * game.NUM_CELLS
         pairs = [(i, v) for i, v in enumerate(q[state]) if can_take(state, i)]
         for p in pairs:
             policy[p[0]] = math.exp(p[1] / self._temperature)
@@ -41,7 +41,7 @@ class EGreedy:
         self._epsilon = epsilon
 
     def __call__(self, q, state):
-        policy = [0] * NUM_ACTIONS
+        policy = [0] * game.NUM_CELLS
         pairs = [(i, v) for i, v in enumerate(q[state]) if can_take(state, i)]
         for p in pairs:
             policy[p[0]] = self._epsilon / len(pairs)
