@@ -30,8 +30,12 @@ class Player:
     ]
 
     def __init__(self, random_state):
-        self.q = defaultdict(lambda: [0] * game.NUM_CELLS)
         self.random_state = random_state
+        self.reset()
+
+    def reset(self):
+        self.q = defaultdict(lambda: [0] * game.NUM_CELLS)
+        self.game_result = [0, 0, 0]
 
     def take_action(self, policy):
         """ select an action.
@@ -48,10 +52,13 @@ class Player:
         game_state = self.is_finished(next_state)
         if game_state == 'PLAYER_WIN':
             reward = self.REWARD_WIN
+            self.game_result[0] += 1
         elif game_state == 'OPPONENT_WIN':
             reward = self.REWARD_LOSE
+            self.game_result[1] += 1
         elif game_state == 'FINISH':
             reward = self.REWARD_DRAW
+            self.game_result[2] += 1
         else:
             reward = self.REWARD_ONGOING
         return (next_state, reward, game_state != 'CONTINUE')

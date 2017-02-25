@@ -21,6 +21,7 @@ class SarsaPlayer(player.Player):
     def fit(self, policy_func, opponent, discount, l, m):
         """ learning q values.
         """
+        self.reset()
         for i in range(l):
             new_q = copy(self.q)
             for j in range(m):

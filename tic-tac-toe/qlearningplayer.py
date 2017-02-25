@@ -34,6 +34,7 @@ class QLearningPlayer(player.Player):
         Returns:
             self (:obj):
         """
+        self.reset()
         for j in range(m):
             state = 0
             if self.random_state.rand() < 0.5:

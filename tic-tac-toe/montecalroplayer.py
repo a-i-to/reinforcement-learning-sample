@@ -27,6 +27,7 @@ class MonteCalroPlayer(player.Player):
         Returns:
             self (:obj):
         """
+        self.reset()
         for i in range(l):
             sampling_data = defaultdict(lambda: (0, 0))
             for j in range(m):
