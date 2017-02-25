@@ -6,12 +6,12 @@ from collections import defaultdict
 
 import numpy as np
 
+import game
 
 class Player:
     """ Players' superclass.
     """
     T = 5
-    NUM_CELLS = 9
     REWARD_WIN = 1
     REWARD_LOSE = 0
     REWARD_DRAW = 0
@@ -29,7 +29,7 @@ class Player:
     ]
 
     def __init__(self):
-        self.q = defaultdict(lambda: [0] * self.NUM_CELLS)
+        self.q = defaultdict(lambda: [0] * game.NUM_CELLS)
 
     def fit(self, policy_func, opponent, discount, l, m, seed=None):
         """ learning q values
@@ -66,7 +66,7 @@ class Player:
             return state | (1 << ((action * 2) + 1))
 
     def is_finished(self, state):
-        for i in range(3):
+        for i in range(game.NUM_CELLS_IN_ROW):
             row_state = (state & (63 << i * 6)) >> i * 6
             if row_state == 21:
                 return "PLAYER_WIN"
@@ -87,15 +87,15 @@ class Player:
             return "PLAYER_WIN"
         elif diag_state2 == 8736:
             return "OPPONENT_WIN"
-        if len([i for i in range(self.NUM_CELLS)
+        if len([i for i in range(game.NUM_CELLS)
                 if (3 << i * 2) & state == 0]) == 0:
             return "FINISH"
         else:
             return "CONTINUE"
 
     def encode(self, state):
-        as_array = np.zeros(self.NUM_CELLS, int)
-        for i in range(self.NUM_CELLS):
+        as_array = np.zeros(game.NUM_CELLS, int)
+        for i in range(game.NUM_CELLS):
             as_array[i] = (state >> i * 2) & 3
 
         min = state
@@ -103,7 +103,7 @@ class Player:
         for i, indice in enumerate(self.ROT_MATRIX[1:]):
             arr = as_array[indice]
             val = 0
-            for j in range(self.NUM_CELLS):
+            for j in range(game.NUM_CELLS):
                 val |= (arr[j] << j * 2)
             if val < min:
                 min = val
@@ -114,12 +114,12 @@ class Player:
         if index == 0:
             return val
 
-        as_array = np.zeros(self.NUM_CELLS, int)
-        for i in range(self.NUM_CELLS):
+        as_array = np.zeros(game.NUM_CELLS, int)
+        for i in range(game.NUM_CELLS):
             as_array[i] = (val >> i * 2) & 3
 
         arr = as_array[self.ROT_MATRIX[index]]
         val = 0
-        for i in range(self.NUM_CELLS):
+        for i in range(game.NUM_CELLS):
             val |= arr[i] << i * 2
         return val

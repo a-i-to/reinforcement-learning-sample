@@ -1,11 +1,12 @@
 """
 Monte Calro Player
 """
-
-import numpy as np
 import itertools
 from collections import defaultdict
 
+import numpy as np
+
+import game
 import player
 
 
@@ -83,6 +84,6 @@ class MonteCalroPlayer(player.Player):
                                   value[1] + 1)
 
     def update_q(self, sampling_data):
-        self.q = defaultdict(lambda: [0] * self.NUM_CELLS)
+        self.q = defaultdict(lambda: [0] * game.NUM_CELLS)
         for k, v in sampling_data.items():
             self.q[k[0]][k[1]] = v[0] / v[1]
