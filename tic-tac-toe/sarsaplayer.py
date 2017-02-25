@@ -14,23 +14,20 @@ class SarsaPlayer(player.Player):
     """ SARSA player.
     """
 
-    def __init__(self, lr):
-        super().__init__()
+    def __init__(self, random_state, lr):
+        super().__init__(random_state)
         self.lr = lr
 
-    def fit(self, policy_func, opponent, discount, l, m, seed=None):
+    def fit(self, policy_func, opponent, discount, l, m):
         """ learning q values.
         """
-        np.random.seed(seed)
-        opponent.random = np.random
-
         for i in range(l):
             new_q = copy(self.q)
             for j in range(m):
                 episode = []
 
                 state = 0
-                if np.random.rand() < 0.5:
+                if self.random_state.rand() < 0.5:
                     action = opponent.move(state)
                     next_state = self.update_state(state, False, action)[0]
                     state = next_state
@@ -67,7 +64,6 @@ class SarsaPlayer(player.Player):
 
     def update_new_q(self, new_q, episode, discount):
         episode_len = len(episode)
-
         for i, v in enumerate(reversed(episode)):
             state = v[0]
             action = v[1]

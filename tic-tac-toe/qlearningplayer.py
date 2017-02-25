@@ -17,11 +17,11 @@ class QLearningPlayer(player.Player):
         lr (float) : learning rate
     """
 
-    def __init__(self, lr):
-        super().__init__()
+    def __init__(self, random_state, lr):
+        super().__init__(random_state)
         self.lr = lr
 
-    def fit(self, policy_func, opponent, discount, m, seed=None):
+    def fit(self, policy_func, opponent, discount, m):
         """ learning q function.
 
         Args:
@@ -34,12 +34,9 @@ class QLearningPlayer(player.Player):
         Returns:
             self (:obj):
         """
-        np.random.seed(seed)
-        opponent.random = np.random
-
         for j in range(m):
             state = 0
-            if np.random.rand() < 0.5:
+            if self.random_state.rand() < 0.5:
                 action = opponent.move(state)
                 next_state = self.update_state(state, False, action)[0]
                 state = next_state

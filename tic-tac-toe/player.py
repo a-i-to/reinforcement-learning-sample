@@ -8,6 +8,7 @@ import numpy as np
 
 import game
 
+
 class Player:
     """ Players' superclass.
     """
@@ -28,13 +29,9 @@ class Player:
         [8, 5, 2, 7, 4, 1, 6, 3, 0]
     ]
 
-    def __init__(self):
+    def __init__(self, random_state):
         self.q = defaultdict(lambda: [0] * game.NUM_CELLS)
-
-    def fit(self, policy_func, opponent, discount, l, m, seed=None):
-        """ learning q values
-        """
-        raise NotImplementedError()
+        self.random_state = random_state
 
     def take_action(self, policy):
         """ select an action.
@@ -43,7 +40,7 @@ class Player:
             policy (List[float]):
         """
         accum = list(itertools.accumulate(policy))
-        rand_value = np.random.rand()
+        rand_value = self.random_state.rand()
         return [i for i, v in enumerate(accum) if v >= rand_value][0]
 
     def update_state(self, state, is_my_move, action):

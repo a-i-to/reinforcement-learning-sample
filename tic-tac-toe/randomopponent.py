@@ -1,13 +1,13 @@
 """
 Random Opponent
 """
-
-import random
-
 import game
 
 
 class RandomOpponent:
+
+    def __init__(self, random_state):
+        self.random_state = random_state
 
     def move(self, state):
         """
@@ -18,7 +18,7 @@ class RandomOpponent:
             return action
         candidates = [i for i in range(game.NUM_CELLS)
                       if (3 << i * 2) & state == 0]
-        return self.random.choice(candidates)
+        return self.random_state.choice(candidates)
 
     def get_last_cell(self, state):
         for i in range(game.NUM_CELLS_IN_ROW):

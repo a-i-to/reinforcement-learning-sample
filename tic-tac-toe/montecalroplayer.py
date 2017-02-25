@@ -14,7 +14,7 @@ class MonteCalroPlayer(player.Player):
     """ Monte Calro player.
     """
 
-    def fit(self, policy_func, opponent, discount, l, m, seed=None):
+    def fit(self, policy_func, opponent, discount, l, m):
         """ learning q function.
 
         Args:
@@ -23,21 +23,17 @@ class MonteCalroPlayer(player.Player):
             discount (float): discount rate
             l (int): num of iterations
             m (int): num of episodes
-            seed (int): random seed
 
         Returns:
             self (:obj):
         """
-        np.random.seed(seed)
-        opponent.random = np.random
-
         for i in range(l):
             sampling_data = defaultdict(lambda: (0, 0))
             for j in range(m):
                 episode = []
 
                 state = 0
-                if np.random.rand() < 0.5:
+                if self.random_state.rand() < 0.5:
                     action = opponent.move(state)
                     next_state = self.update_state(state, False, action)[0]
                     state = next_state
