@@ -67,7 +67,9 @@ class QLearningPlayer(player.Player):
                     break
 
                 state = self.decode(encode_idx, next_next_encoded)
-
+                if state == 101136:
+                    print(next_state)
+                    print(opponent_action)
         return self
 
     def update_q(self, state, action, reward, next_state, discount,

@@ -39,14 +39,14 @@ class RandomOpponent:
         diag_state = state & 197379
         if diag_state == 514:
             return 8
-        if diag_state == 65792:
+        if diag_state == 131074:
             return 4
         if diag_state == 131584:
             return 0
         diag_state2 = state & 13104
         if diag_state2 == 544:
             return 6
-        if diag_state2 == 4532:
+        if diag_state2 == 8224:
             return 4
         if diag_state2 == 8704:
             return 2
@@ -71,13 +71,13 @@ class RandomOpponent:
             return 8
         if diag_state == 65537:
             return 4
-        if diag_state == 131074:
+        if diag_state == 65792:
             return 0
         diag_state2 = state & 13104
         if diag_state2 == 272:
             return 6
         if diag_state2 == 4112:
             return 4
-        if diag_state2 == 8224:
+        if diag_state2 == 4352:
             return 2
         return -1
