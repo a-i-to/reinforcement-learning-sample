@@ -13,8 +13,8 @@ class Player:
     """ Players' superclass.
     """
     T = 5
-    REWARD_WIN = 1
-    REWARD_LOSE = 0
+    REWARD_WIN = 5
+    REWARD_LOSE = -5
     REWARD_DRAW = 0
     REWARD_ONGOING = 0
 
