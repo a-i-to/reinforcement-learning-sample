@@ -1,10 +1,7 @@
 """
 Monte Calro Player
 """
-import itertools
 from collections import defaultdict
-
-import numpy as np
 
 import game
 import player

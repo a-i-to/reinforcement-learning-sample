@@ -1,11 +1,7 @@
 """
 SARSA Player
 """
-import itertools
-from collections import defaultdict
 from copy import copy
-
-import numpy as np
 
 import player
 
